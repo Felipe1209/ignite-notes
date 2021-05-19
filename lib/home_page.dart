@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_notes/create_note_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +22,20 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               for (int i = 0; i < notes.length; i++)
-              Card(child: ListTile(title: Text(notes[i]),))
+              Card(
+                child: ListTile(
+                  title: Text(notes[i]),
+                  onTap: () async{
+                    var note = await Navigator.pushNamed(context, '/create', arguments: notes[i]);
+                    if (note != null){
+                      notes[i] = note as String;
+                    } else {
+                      notes.removeAt(i);
+                    }
+                    setState((){});
+                  },
+                )
+              )
             ],
           ),
         ),
@@ -31,12 +43,13 @@ class _HomePageState extends State<HomePage> {
 
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: (){
+        onPressed: () async{
+          var note = await Navigator.pushNamed(context, '/create');
+          if (note != null)
           setState(() {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateNotePage()));
+            notes.add(note as String);
           });
-        },
+        }
       ),
 
 
