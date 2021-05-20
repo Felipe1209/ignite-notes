@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:ignite_notes/widgets/save_button_widget.dart';
+import 'package:ignite_notes/widgets/text_field_widget.dart';
 
 class CreateNotePage extends StatefulWidget {
   const CreateNotePage({Key? key}) : super(key: key);
@@ -34,8 +35,6 @@ class _CreateNotePageState extends State<CreateNotePage> {
 
   @override
   void initState() {
-    //espera o primeiro frame para executar as ações
-    //usa-se pois no initState ainda não existe context até o primeiro frame
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if(ModalRoute.of(context)!.settings.arguments != null){
         note = ModalRoute.of(context)!.settings.arguments as String;
@@ -60,7 +59,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: (){
-                Navigator.pop(context, null);
+                Navigator.pop(context, '');
               },
             )
         ],
@@ -72,42 +71,14 @@ class _CreateNotePageState extends State<CreateNotePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextField(
-                controller: _controller,
-                maxLength: 500,
-                maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                maxLines: 8,
-                autofocus: true,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16), //arredonda a borda
-                    )
-                ),
-              ),
+              TextFieldWidget(controller: _controller),
               Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16)
-                        ),
-                        child: Text("SAVE", style: TextStyle(fontSize: 16),),
-                        onPressed: _save
-                      ),
-                    ),
-                  ),
-                ],
+                children: [ SaveButtonWidget(onPressed: _save) ],
               )
             ],
           ),
         ),
       ),
-
     );
   }
 }

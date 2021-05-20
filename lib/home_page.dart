@@ -9,6 +9,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<String> notes = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,19 +28,18 @@ class _HomePageState extends State<HomePage> {
                   title: Text(notes[i]),
                   onTap: () async{
                     var note = await Navigator.pushNamed(context, '/create', arguments: notes[i]);
-                    if (note != null){
-                      notes[i] = note as String;
+                    if (note != ''){
+                      if(note != null){
+                        notes[i] = note as String;
+                      }
                     } else {
                       notes.removeAt(i);
                     }
                     setState((){});
                   },
-                )
-              )
+              ))
             ],
-          ),
-        ),
-      ),
+      ))),
 
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -51,9 +51,6 @@ class _HomePageState extends State<HomePage> {
           });
         }
       ),
-
-
-
     );
   }
 }
