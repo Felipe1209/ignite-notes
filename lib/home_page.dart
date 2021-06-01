@@ -41,16 +41,20 @@ class _HomePageState extends State<HomePage> {
             ],
       ))),
 
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
+        label: Text('Criar Nota'),
+        shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(2)),
         onPressed: () async{
           var note = await Navigator.pushNamed(context, '/create');
           if (note != null)
-          setState(() {
-            notes.add(note as String);
-          });
+            setState(() {
+              notes.add(note as String);
+            });
         }
-      ),
+      )
     );
   }
 }
